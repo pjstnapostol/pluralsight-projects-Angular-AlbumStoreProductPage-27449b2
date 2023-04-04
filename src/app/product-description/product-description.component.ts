@@ -8,13 +8,19 @@ import { ProductService } from '../product.service';
 })
 export class ProductDescriptionComponent implements OnInit {
   albumInfo;
+  errorMessage = 'Error loading';
 
   constructor(private _productService: ProductService) { }
 
   ngOnInit() {
     this._productService.getAlbum(1)
-    .subscribe(
-      response => this.albumInfo = response
+    .subscribe({
+      next: response => {
+        this.albumInfo = response;
+      },
+      error: err => this.errorMessage = err
+
+    }
       );
   }
 
